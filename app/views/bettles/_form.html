@@ -1,0 +1,26 @@
+<%= form_for @bettle do |f| %>
+  
+
+   <p>League</p> 
+   <p><%= select_tag(:league, options_for_select(get_leagues, params[:league_id])) %> </p>
+
+   <p><%= f.submit %> </p>
+<% end %>
+
+
+
+<%= form_tag( { :controller => :bettles, :action => :team_search},  :remote => true, :format => :js, :id => "team_search") do %>
+  
+ <p><%= text_field_tag :search_term,  nil, :placeholder => 'Search for team' %> <%= submit_tag "Go", :class => "all_btn_2" %></p>
+
+<% end %>
+
+
+<div id="search_results"></div>
+
+<div id="selected_fixture">
+  <div id="home-team"> </div>
+  <div>vs.</div>
+  <div id="abroad-team"></div>
+  <div id="date"></div>
+</div>

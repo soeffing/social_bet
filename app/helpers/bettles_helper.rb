@@ -1,0 +1,2 @@
+module BettlesHelper
+end

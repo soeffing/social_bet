@@ -1,0 +1,6 @@
+
+<ul>
+  <% @fixtures.each do |f| %>
+   <li id="fixture_<%= f.id %>" home-team="<%= f.home_team.team_name %>" abroad-team="<%= f.abroad_team.team_name %>" date="<%= f.date.to_date %>"> <%= f.home_team.team_name %> vs <%= f.abroad_team.team_name %> Date: <%= f.date %> </li>
+  <% end %>
+</ul>
