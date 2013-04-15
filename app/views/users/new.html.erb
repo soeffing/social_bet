@@ -1,6 +1,8 @@
 <h1>Teaser goes here</h1>
 <p>Bettle for some metal!</p>
-<%= link_to "New Bettle", new_user_bettle_path(current_user), :remote => true %>
+<% if current_user %>
+  <%= link_to "New Bettle", new_user_bettle_path(current_user), :remote => true %>
+<% end %>
 
 
 <div id="new_bettle_dialog"></div>
