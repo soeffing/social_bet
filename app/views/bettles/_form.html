@@ -1,26 +1,65 @@
-<%= form_for @bettle do |f| %>
+<script type="text/javascript">
+
+  // update current gmt time every second
+  (function(){
+     update = function() {
+      t =  new Date().toUTCString();
+      $("#current_gmt_time").text(t)
+    }
   
+    setInterval("update()", 1000);
+})();
 
-   <p>League</p> 
-   <p><%= select_tag(:league, options_for_select(get_leagues, params[:league_id])) %> </p>
-
-   <p><%= f.submit %> </p>
-<% end %>
+</script>
 
 
-
-<%= form_tag( { :controller => :bettles, :action => :team_search},  :remote => true, :format => :js, :id => "team_search") do %>
+<div id="new_bettle_step_1">
   
- <p><%= text_field_tag :search_term,  nil, :placeholder => 'Search for team' %> <%= submit_tag "Go", :class => "all_btn_2" %></p>
+  <p>1. Type in your Team</p>
+    <%= form_tag( { :controller => :bettles, :action => :team_search},  :remote => true, :format => :js, :id => "team_search") do %>
+    
+     <p><%= text_field_tag :search_term,  nil, :placeholder => 'Search for team' %> <%= submit_tag "Go", :class => "all_btn_2" %></p>
+  
+    <% end %>
+  
+    <div id="search_results"></div>
+  
+    <div id="selected_fixture_step_1">
+      <div id="home-team"> </div>
+      <div>vs.</div>
+      <div id="abroad-team"></div>
+      <div id="date"></div>
+      <div id="league"></div>
+  </div>
 
-<% end %>
+  <div onclick="transition_step(2)">Continue Button</div>
 
+</div>
 
-<div id="search_results"></div>
+<div id="new_bettle_step_2">
+ <p>2. Propose a bet</p>
+ <div id="selected_fixture_step_2"></div>
+ <%= form_for [current_user, @bettle], :remote => true do |f| %>
+     <%= f.hidden_field :fixture_id %>
+     <p> I bet that: <%= f.select(:maker_outcome_id, get_outcomes) %></p>
+     <p> Rival needs to bet that: <%= f.select(:taker_outcome_id, get_outcomes) %></p>
+     <p> <%= f.select(:free_bet, {"I play with cash" => 0, "I play for honour" => 1}) %></p>
+     <p>My potential win: <%= f.text_field(:win_maker, :placeholder => "Enter amount here €") %> </p>
+     <p>My potential loss: <%= f.text_field(:win_taker, :placeholder => "Enter amount here €") %>  </p>
+     <p>Expiration time </p>
+     <p>Bettle.me orientates itself to the Greenwich Mean Time (GMT). Current GMT: <span id="current_gmt_time"></span></p>
+     <div><input type="radio" name="time_select" value="0"> Time span <input type="radio" name="time_select" value="1">Exact date</div>
+     <div id="time_span">
+       <p>Bet expires in</p>
+       <%= f.text_field(:days, :placeholder => "# days") %> <%= f.text_field(:hours, :placeholder => "# hours") %> <%= f.text_field(:minutes, :placeholder => "# minutes") %>
+     </div>
+     <div id="exact_date">
+       <p>Bet expires on</p>
+       <%= f.text_field(:expiration_time) %>
+     </div>
+     <p><%= f.submit %> </p>
+ <% end %>
 
-<div id="selected_fixture">
-  <div id="home-team"> </div>
-  <div>vs.</div>
-  <div id="abroad-team"></div>
-  <div id="date"></div>
+ <div onclick="transition_step(1)">Go Back Button</div>
+
 </div>

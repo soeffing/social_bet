@@ -11,19 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130405144338) do
+ActiveRecord::Schema.define(:version => 20130412164929) do
 
   create_table "bettles", :force => true do |t|
     t.integer  "maker_id"
     t.integer  "taker_id"
     t.integer  "fixture_id"
     t.boolean  "free_bet"
-    t.decimal  "win_maker",   :precision => 10, :scale => 0
-    t.decimal  "win_taker",   :precision => 10, :scale => 0
+    t.decimal  "win_maker",        :precision => 15, :scale => 0
+    t.decimal  "win_taker",        :precision => 15, :scale => 0
     t.boolean  "accepted"
-    t.datetime "expire_time"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "expiration_time"
+    t.integer  "bettle_status_id",                                :default => 1
+    t.integer  "taker_outcome_id"
+    t.integer  "maker_outcome_id"
+    t.datetime "created_at",                                                     :null => false
+    t.datetime "updated_at",                                                     :null => false
   end
 
   create_table "fixtures", :force => true do |t|
@@ -39,6 +42,12 @@ ActiveRecord::Schema.define(:version => 20130405144338) do
     t.string   "league_name"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "outcomes", :force => true do |t|
+    t.string   "en"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "teams", :force => true do |t|

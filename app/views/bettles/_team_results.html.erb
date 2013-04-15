@@ -1,6 +1,37 @@
+<div id="fixture_results">
 
-<ul>
-  <% @fixtures.each do |f| %>
-   <li id="fixture_<%= f.id %>" home-team="<%= f.home_team.team_name %>" abroad-team="<%= f.abroad_team.team_name %>" date="<%= f.date.to_date %>"> <%= f.home_team.team_name %> vs <%= f.abroad_team.team_name %> Date: <%= f.date %> </li>
-  <% end %>
-</ul>
+  <script type="text/javascript">
+    
+ 
+    $('[id^="fixture_"]').click(function() { 
+	  el = $(this);
+	  $('#home-team').text($(this).attr('home-team')); 
+	  $('#abroad-team').text($(this).attr('abroad-team'));
+	  $('#date').text($(this).attr('date')); 
+	  $('#league').text($(this).attr('league'));
+    $('input#bettle_fixture_id').val($(this).attr('id').split('_')[1]);
+
+    
+    
+      // ajax call to get fixture and populate fixture field for step 2
+      // $.ajax({
+          // type: "GET",
+          // url: "fixtures/"+ el.attr('id').split('_')[1],
+        // // data: { name: "John", location: "Boston" }
+      // }).done(function( msg ) {
+         // alert( "Data Saved: " + msg.abroad_team.team_name );
+      // });
+
+     $('#fixture_results').remove();
+    
+    })
+  
+  </script>
+  
+  <ul>
+    <% @fixtures.each do |f| %>
+   <li id="fixture_<%= f.id %>" home-team="<%= f.home_team.team_name %>" abroad-team="<%= f.abroad_team.team_name %>" date="<%= f.date.to_date %>" league="<%= f.league.league_name %>"  > <%= f.home_team.  team_name %> vs <%= f.abroad_team.team_name %> Date: <%= f.date.to_date %> League: <%= f.league.league_name %> </li>
+    <% end %>
+  </ul>
+
+</div>

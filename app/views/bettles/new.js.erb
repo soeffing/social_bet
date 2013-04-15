@@ -1,0 +1,45 @@
+var opt = {
+        autoOpen: false,
+        modal: true,
+        width: 550,
+        height:650,
+        close: function( event, ui ) { $("#new_bettle_dialog" ).children().remove() }
+};
+
+$("#new_bettle_dialog").append("<%= escape_javascript(render :partial => 'new') %>");
+
+$("#new_bettle_dialog" ).dialog(opt).dialog("open");
+      
+ 
+
+ // $("#banner_preview").data("overlay").load();
+
+
+
+// $(document).ready(function() {
+   $('#new_bettle_step_2').css('display', 'none');
+// }  
+
+
+
+$(document).ready(function() {
+
+  // activate jquery ui datepicker
+   $('#bettle_expiration_time').datetimepicker({"format": "dd-mm-yyyy", "weekStart": 1, "autoclose": true});
+
+  $('input#search_term').keyup(function() {
+    delay(function(){
+      $('#team_search').submit();
+    }, 250 );
+  });  
+});
+
+
+
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();

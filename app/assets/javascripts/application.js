@@ -6,4 +6,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
+//= jquery_ui_timepicker_addon.js
 //= require_tree .

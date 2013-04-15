@@ -1,7 +1,9 @@
 SocialBet::Application.routes.draw do
 
-  resources :bettles
-  resources :users
+  resources :users do
+    resources :bettles
+  end
+  resources :fixtures, :only => [:show]
 
   root to: 'users#new'
   
