@@ -23,4 +23,15 @@ module ApplicationHelper
    return c_select_hash
  end
 
+  def get_outcomes_reverse
+     outcomes = Outcome.find(:all)
+  
+     c_select_hash = Hash.new
+     
+     outcomes.reverse.each do |c| 
+       c_select_hash[c.en] = c.id 
+     end 
+   return c_select_hash
+ end
+
 end

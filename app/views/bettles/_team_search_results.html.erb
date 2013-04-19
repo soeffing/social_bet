@@ -28,10 +28,16 @@
   
   </script>
   
-  <ul>
-    <% @fixtures.each do |f| %>
-   <li id="fixture_<%= f.id %>" home-team="<%= f.home_team.team_name %>" abroad-team="<%= f.abroad_team.team_name %>" date="<%= f.date.to_date %>" league="<%= f.league.league_name %>"  > <%= f.home_team.  team_name %> vs <%= f.abroad_team.team_name %> Date: <%= f.date.to_date %> League: <%= f.league.league_name %> </li>
-    <% end %>
-  </ul>
+  <ul id="fixture_list">
+    <% if @fixtures.empty? %>
+      <li>No team found</li>   
+    <% elsif @fixtures == "empty_search_field" %>
 
+    <% else %>
+      <% @fixtures.each do |f| %>
+        <li id="fixture_<%= f.id %>" home-team="<%= f.home_team.team_name %>" abroad-team="<%= f.abroad_team.team_name %>" date="<%= f.date.to_date %>" league="<%= f.league.league_name %>">
+        <%= f.home_team.  team_name %> vs <%= f.abroad_team.team_name %> Date: <%= f.date.to_date %> League: <%= f.league.league_name %> </li>  
+      <% end %>
+    <% end %>
+  <ul>
 </div>

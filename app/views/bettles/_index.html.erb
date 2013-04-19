@@ -1,0 +1,37 @@
+<div ng-app="myApp">
+       <div ng-controller="BettlesCtrl">
+         <div>
+          <%# view mode not done yet -> pls dont touch %>
+          <p>View Mode (doesn't work yet)</p>
+          <input type="radio" name="view_mode" value="scroll" onclick="changeViewMode('scroll')" checked="true"> Scroll
+          <input type="radio" name="view_mode" value="stream" onclick="changeViewMode('stream')"> Stream
+         </div>
+         <div>
+            <%# sorty by cannot be a select element with options cuz not compatible with angular js -> try to be creative :) %>
+            <p>Sort by:</p>
+            <ul>
+               <li><a href=""  ng-click="setOrder('expiration_time'); reverse=false"> Expiration Time </a> </li>
+               <li> <a href=""  ng-click="setOrder('win_taker'); reverse=true"> Potential Win </a></li>
+            </ul>
+             
+         </div>
+         <div>
+           <%# searching for one Team -> search for second team still needs to be implemented %>
+           <p>Search for a team:</p>
+           <input type="text" ng-model="searchText">
+         </div>
+         <div id="view_mode" class="bettles">
+            <div ng-repeat="bettle in bettles.cast | filter:searchText | orderBy:order:reverse " style="border-style:solid">   
+            <div>Date: {{bettle.fixture.date}}</div>
+            <div>League: {{bettle.fixture.league.league_name}}</div>
+            <div>{{bettle.fixture.home_team.team_name}}</div>
+            <div>vs.</div>
+            <div>{{bettle.fixture.abroad_team.team_name}}</div>
+            <div>{{bettle | outcome_maker }}</div>
+            <div>Bet {{bettle.win_maker}} Euro to win {{bettle.win_taker}} Euro if {{bettle | outcome_taker}}  </div>
+            <div> {{ bettle.expiration_time  }}</div>
+            <div id="bettle_countdown_{{bettle.id}}" expiration-time='{{bettle.expiration_time | expiration_time_attr }}' > Countdown: {{bettle | countdown_init }} </div>
+           </div>
+         </div>
+       </div>
+    </div>

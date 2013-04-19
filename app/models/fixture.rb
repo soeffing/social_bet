@@ -8,7 +8,11 @@ class Fixture < ActiveRecord::Base
 
 
   def self.search(search_term)
-    where('team_1_id IN (?) OR team_2_id IN (?)', Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'), Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'))
+  	if search_term == ""
+      "empty_search_field"
+  	else
+      where('team_1_id IN (?) OR team_2_id IN (?)', Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'), Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'))
+    end
   end
 
 end

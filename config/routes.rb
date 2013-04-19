@@ -9,7 +9,7 @@ SocialBet::Application.routes.draw do
   
   match 'team/search', to: 'bettles#team_search'
   match 'auth/:provider/callback', to: 'sessions#create'
-  match 'auth/failure', to: redirect('/')
+  match 'auth/failure', to: 'users#new'
   match 'signout', to: 'sessions#destroy', as: 'signout'
   # The priority is based upon order of creation:
   # first created -> highest priority.

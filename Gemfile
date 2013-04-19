@@ -12,12 +12,13 @@ gem 'mysql2',  '>=0.3'
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+ # gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
 
 gem 'jquery-ui-rails'
 gem 'jquery-rails'
+gem 'client_side_validations'
 
 
 gem 'omniauth-facebook' # facebook gem
@@ -33,13 +34,12 @@ gem 'omniauth-facebook' # facebook gem
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-end
-
-group :test do
+  gem 'guard-rspec'
   gem 'faker'
   gem 'capybara'
-  gem 'guard-rspec'
   gem 'launchy'
+end
+group :test do
 end
 
 

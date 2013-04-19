@@ -1,8 +1,21 @@
 <h1>Teaser goes here</h1>
 <p>Bettle for some metal!</p>
+
 <% if current_user %>
-  <%= link_to "New Bettle", new_user_bettle_path(current_user), :remote => true %>
+  <div>
+  	<p>User menu goes here</p>
+    <%= link_to "New Bettle", new_user_bettle_path(current_user), :remote => true %>
+  </div>
 <% end %>
 
 
+<%= render 'bettles/index' %>
+
+
+
+
+
+
+
+<%# needed for the jquery dialog -> creating new bettle %>
 <div id="new_bettle_dialog"></div>

@@ -33,7 +33,11 @@ class BettlesController < ApplicationController
   end
 
   def index
-    @bettles = Bettle.where(:bettle_status_id => 1)
+    if current_user 
+      @bettles = Bettle.where(:bettle_status_id => 1).where('maker_id != ?', current_user.id)
+    else
+      @bettles = Bettle.where(:bettle_status_id => 1)
+    end
     render :json => @bettles.to_json(:include => {:fixture => {:include => [:home_team, :abroad_team, :league]}})
   end
 

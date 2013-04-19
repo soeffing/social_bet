@@ -39,16 +39,19 @@
 <div id="new_bettle_step_2">
  <p>2. Propose a bet</p>
  <div id="selected_fixture_step_2"></div>
- <%= form_for [current_user, @bettle], :remote => true do |f| %>
+ <%= form_for [current_user, @bettle], :validate => true, :remote => true do |f| %>
      <%= f.hidden_field :fixture_id %>
-     <p> I bet that: <%= f.select(:maker_outcome_id, get_outcomes) %></p>
-     <p> Rival needs to bet that: <%= f.select(:taker_outcome_id, get_outcomes) %></p>
-     <p> <%= f.select(:free_bet, {"I play with cash" => 0, "I play for honour" => 1}) %></p>
-     <p>My potential win: <%= f.text_field(:win_maker, :placeholder => "Enter amount here €") %> </p>
-     <p>My potential loss: <%= f.text_field(:win_taker, :placeholder => "Enter amount here €") %>  </p>
+     <div id="bettle_outcome_selection">
+       <p> I bet that: <%= f.select(:maker_outcome_id, get_outcomes, {}, :onchange => "outcome_validation(this)") %></p>
+       <p> Rival needs to bet that: <%= f.select(:taker_outcome_id, get_outcomes_reverse, {}, :onchange => "outcome_validation(this)") %></p>
+     </div>
+     <p> <%= f.select(:free_bet, {"I play with cash" => 0, "I play for honour" => 1}, {}, :onchange => "cash_or_honor_bet(this)" ) %></p>
+     <div id="cash_bet">
+       <p>My potential win: <%= f.text_field(:win_maker, :placeholder => "Enter amount here €") %> </p>
+       <p>My potential loss: <%= f.text_field(:win_taker, :placeholder => "Enter amount here €") %>  </p>
+     </div>
      <p>Expiration time </p>
-     <p>Bettle.me orientates itself to the Greenwich Mean Time (GMT). Current GMT: <span id="current_gmt_time"></span></p>
-     <div><input type="radio" name="time_select" value="0"> Time span <input type="radio" name="time_select" value="1">Exact date</div>
+     <div><input type="radio" name="time_select" value="0" checked="checked" onclick="date_selection(0)"> Time span <input type="radio" name="time_select" value="1" onclick="date_selection(1)">Exact date & time</div>
      <div id="time_span">
        <p>Bet expires in</p>
        <%= f.text_field(:days, :placeholder => "# days") %> <%= f.text_field(:hours, :placeholder => "# hours") %> <%= f.text_field(:minutes, :placeholder => "# minutes") %>
@@ -56,6 +59,7 @@
      <div id="exact_date">
        <p>Bet expires on</p>
        <%= f.text_field(:expiration_time) %>
+       <p>Bettle.me orientates itself to the Greenwich Mean Time (GMT). Current GMT: <span id="current_gmt_time"></span></p>
      </div>
      <p><%= f.submit %> </p>
  <% end %>
