@@ -1,0 +1,147 @@
+BBVA Liga
+
+Spieltag 1.
+
+Atletico vs Real
+
+
+Ich: Atltico win / madird loose - 10
+
+
+
+Opponent: Real win / Atletico loose - 1
+
+Bet valid until: countdown.
+
+Send 
+
+
+
+MAKE A COUNTER BET -> if taker want to change potential gains (proposed bets)
+
+
+
+Site
+
+Stream
+ -> My Bets
+New Bets (proposed, accepted)
+Edit Bet
+Delete Bet
+Add/retrieve funds
+ -> account details
+
+
+
+
+User Story:
+
+Authenticate with FB
+ -> create new bet
+   -> search team
+     -> select available fixtures
+   -> I bet: Team 1 wins [Team 1 wins, Tie, Team 2 wins]
+   -> oponent bets: Team 1 looses [Team 1 wins, Tie, Team 2 wins]
+   -> cash or honour
+   -> My potential win
+   -> Rival potentials win
+
+
+Stream
+  -> where Bettle.maker_id != current_user.id  each do |bettle|
+     bettle.fixture.team_1 vs bettle.fixture.team_2 + bettle.fixture.league
+     Oponent says: Team 1 wins
+
+
+
+
+
+User 
+ - id
+ - username
+ - email
+ - name
+ - last name
+ - balance
+
+
+Bettle
+ - maker_id
+ - taker_id
+ - maker_outcome_id
+ - taker_outcome_id
+ - winner_id (who won)
+ - free_bet (boolean)
+ - win_maker
+ - win_taker
+ - accepted (boolean)
+ - created_at
+ - expire_time (countdown)
+ - fixture_id
+ - bettle_status_id
+
+
+Outcome:
+ team_1_wins
+ team_2_wins
+ tie
+
+Bettle Status
+ - open
+ - accepted
+ - expired (not accepted)
+ - pending (expired and accepted)
+ - waiting (not enough funds)
+
+
+Sport_type
+ - footbal
+
+League
+ - BBVA
+ - Champions League
+ - WM Quali 2014
+ - sport_type_id
+
+fixture
+ - league_id
+ - team_1_id
+ - team_2_id
+ - datum
+
+
+Teams
+ - team_id
+ - name
+
+
+
+
+### NOTES ###
+
+Time issue - GMT standard Time -> countdown issue in browser
+
+Background Job to update bets that expired
+
+
+
+
+ 
+fixtures = Hash.new
+
+
+fixtures = {"14-04-2013" => ["Rayo Vallecano-Real Sociedad", "Málaga-Osasuna", "Espanyol-Valencia", "Valladolid-Getafe", "Atlético Madrid-Granada", "Betis-Sevilla", "Athletic Bilbao-Real Madrid", "Levante-Deportivo", "Zaragoza-Barcelona", "Mallorca-Celta"], "21-04-2013" => ["Osasuna-Real Sociedad","Valencia-Málaga","Getafe-Espanyol","Granada-Valladolid","Sevilla-Atlético Madrid","Real Madrid-Betis","Deportivo-Athletic Bilbao","Barcelona-Levante","Celta-Zaragoza","Mallorca-Rayo Vallecano"], "28-04-2013" => ["Rayo Vallecano-Osasuna", "Real Sociedad-Valencia", "Málaga-Getafe", "Espanyol-Granada", "Valladolid-Sevilla", "Atlético Madrid-Real Madrid", "Betis-Deportivo", "Athletic Bilbao-Barcelona", "Levante-Celta", "Zaragoza-Mallorca"] , "05-05-2013" => ["Valencia-Osasuna", "Getafe-Real Sociedad", "Granada-Málaga", "Sevilla-Espanyol", "Real Madrid-Valladolid", "Deportivo-Atlético Madrid", "Barcelona-Betis", "Celta-Athletic Bilbao", "Mallorca-Levante", "Zaragoza-Rayo Vallecano"] , "12-05-2013" => [ "Rayo Vallecano-Valencia", "Osasuna-Getafe", "Real Sociedad-Granada", "Málaga-Sevilla", "Espanyol-Real Madrid", "Valladolid-Deportivo", "Atlético Madrid-Barcelona", "Betis-Celta", "Athletic Bilbao-Mallorca", "Levante-Zaragoza"] , "19-05-2013" => ["Mallorca-Betis", "Zaragoza-Athletic Bilbao", "Levante-Rayo Vallecano", "Getafe-Valencia", "Granada-Osasuna", "Sevilla-Real Sociedad", "Real Madrid-Málaga", "Deportivo-Espanyol", "Barcelona-Valladolid", "Celta-Atlético Madrid"] , "29-05-2013" => ["Getafe-Rayo Vallecano" ,"Valencia-Granada" ,"Osasuna-Sevilla" ,"Real Sociedad-Real Madrid" ,"Málaga-Deportivo" ,"Espanyol-Barcelona" ,"Valladolid-Celta" ,"Atlético Madrid-Mallorca" ,"Betis-Zaragoza" ,"Athletic Bilbao-Levante"] , "01-06-2013" => ["Granada-Getafe", "Sevilla-Valencia", "Real Madrid-Osasuna", "Deportivo-Real Sociedad", "Barcelona-Málaga", "Celta-Espanyol", "Mallorca-Valladolid", "Zaragoza-Atlético Madrid", "Levante-Betis", "Rayo Vallecano-Athletic Bilbao"]}
+
+
+
+fixtures.each_pair do |date, fixture|
+fixture.each do |g|
+d = date.to_time
+v1 = g.split("-")[0].downcase
+v2 = g.split("-")[1].downcase
+team_1_id = Team.where('team_name LIKE ?', '%'+ v1 + '%')[0].id
+team_2_id = Team.where('team_name LIKE ?', '%'+ v2 + '%')[0].id
+league_id = 1
+Fixture.new(:league_id => 1, :team_1_id => team_1_id, :team_2_id => team_2_id, :date => d).save
+end
+end

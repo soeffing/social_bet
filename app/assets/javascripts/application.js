@@ -9,5 +9,6 @@
 //= require jquery.ui.all
 //= jquery_ui_timepicker_addon.js
 //= require rails.validations
+//= angular_resource
 //= angular
 //= require_tree .

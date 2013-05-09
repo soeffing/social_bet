@@ -10,8 +10,9 @@ development:
   reconnect: false
   database: bettle_development
   pool: 5
-  username: root 
-  socket: /tmp/mysql.sock
+  username: soeffing
+  password: helmut63
+  socket: /var/run/mysqld/mysqld.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

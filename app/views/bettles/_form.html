@@ -39,7 +39,7 @@
 <div id="new_bettle_step_2">
  <p>2. Propose a bet</p>
  <div id="selected_fixture_step_2"></div>
- <%= form_for [current_user, @bettle], :validate => true, :remote => true do |f| %>
+ <%= form_for @bettle, :validate => true, :remote => true do |f| %>
      <%= f.hidden_field :fixture_id %>
      <div id="bettle_outcome_selection">
        <p> I bet that: <%= f.select(:maker_outcome_id, get_outcomes, {}, :onchange => "outcome_validation(this)") %></p>

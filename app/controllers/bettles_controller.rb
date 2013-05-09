@@ -34,9 +34,9 @@ class BettlesController < ApplicationController
 
   def index
     if current_user 
-      @bettles = Bettle.where(:bettle_status_id => 1).where('maker_id != ?', current_user.id)
+      @bettles = Bettle.where(:bettle_status_id => 1).where('maker_id != ? AND  expiration_time >= ?', current_user.id, Time.now)
     else
-      @bettles = Bettle.where(:bettle_status_id => 1)
+      @bettles = Bettle.where(:bettle_status_id => 1).where('expiration_time >= ?', Time.now)
     end
     render :json => @bettles.to_json(:include => {:fixture => {:include => [:home_team, :abroad_team, :league]}})
   end
