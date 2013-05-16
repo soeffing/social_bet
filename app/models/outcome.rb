@@ -1,3 +1,3 @@
 class Outcome < ActiveRecord::Base
-  attr_accessible :en, :id
+  # attr_accessible :en, :id
 end

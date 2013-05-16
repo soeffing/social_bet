@@ -28,9 +28,19 @@ myApp.factory('Bettles', function($http) {
 
 
 function BettlesCtrl($scope, Bettles) {
-  $scope.bettles = Bettles; 
+   $scope.bettles = Bettles; 
+   console.log($scope);
+   console.log(Bettles);
+  // update scope via server send events
+  source.addEventListener('message', function(data) {
+    console.log(data);
+    $scope.$apply(function () {
+      $scope.bettles.cast.push($.parseJSON(data.data));
+    });
+    console.log($scope);
+  }, false);
 
-  console.log($scope.bettles);
+  // console.log($scope.bettles);
   
   $scope.setOrder = function (order) {
         $scope.order = order;
@@ -91,6 +101,20 @@ myApp.filter('expiration_time_attr', function () {
   }
 });
 
+
+
+
+// Server Send events Eventsource init 
+// http://www.igvita.com/2011/08/26/server-sent-event-notifications-with-html5/
+
+var source = new EventSource('/bettles/events');
+
+
+// source.addEventListener('message', function(data) {
+  // console.log(data.data);
+// }, false);
+  
+//message = $.parseJSON(e.data).message
 
 
 // Utility function

@@ -14,7 +14,7 @@ var transition_step = function(id, home_team, abroad_team){
 
   if (id == 2){
     // initialize clientside valiations
-    $('form#new_bettle').enableClientSideValidations();
+    // $('form#new_bettle').enableClientSideValidations();
     // hide the exact date selection
     $('#exact_date').css('display', 'none');
 
