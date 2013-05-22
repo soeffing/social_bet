@@ -54,7 +54,7 @@
      <div><input type="radio" name="time_select" value="0" checked="checked" onclick="date_selection(0)"> Time span <input type="radio" name="time_select" value="1" onclick="date_selection(1)">Exact date & time</div>
      <div id="time_span">
        <p>Bet expires in</p>
-       <%= text_field_tag(:days, :placeholder => "# days") %> <%= text_field_tag(:hours, :placeholder => "# hours") %> <%= text_field_tag(:minutes, :placeholder => "# minutes") %>
+       <%= text_field_tag(:days, nil, :placeholder => "# days") %> <%= text_field_tag(:hours, nil, :placeholder => "# hours") %> <%= text_field_tag(:minutes, nil, :placeholder => "# minutes") %>
      </div>
      <div id="exact_date">
        <p>Bet expires on</p>
