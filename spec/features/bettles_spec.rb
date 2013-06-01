@@ -7,43 +7,68 @@ describe "Bettle" do
 
   describe "GET /bettles/new", :js => true do
   	before(:each) do
-      visit "/users/new"
+      visit "/users/new" # root_path
       set_omniauth()
       click_link "Sign in with Facebook"
    	end
     it "show new bettle button only after auth" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      
+      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers    
       current_path.should eq(root_path)
       page.should have_content("New Bettle")
       # response.status.should be(200)
     end
 
-    it "team search new bettle" do
+    it "team search for new bettle" do
       click_link "New Bettle"
       within('div.ui-dialog') do 
         fill_in 'search_term' , :with => 'zara'
         page.should have_content('Zaragoza')
-        fill_in 'search_term' , :with => ''
-        page.should have_content('')
-         fill_in 'search_term' , :with => 'saDJJADS032003'
-        page.should have_content('No team found')
+        fill_in 'search_term' , :with => 'saDJJADS032003'
+        page.should have_content('No results found')
       end 
      end
 
      it "carries over selected fixture to step 2" do
        click_link "New Bettle"
-       fill_in 'search_term', :with => "Barcelona"
-       find(:id, "fixture_list").find(:id, 'fixture_37').click
+       fill_in 'search_term', :with => "Barce"
+       sleep 1.seconds
+       #click_link "Barcelona vs. Malaga June 1st 2013 Liga BBVA"
+       find('a#ui-id-4').click
        page.execute_script("transition_step(2)")
-       page.should have_content('Betis')
+       page.should have_content('Malaga')
+    end
+  end
+
+  describe "client side validation of new bettle", :js => true do
+    before(:each) do
+      visit "/users/new" # root_path
+      set_omniauth()
+      click_link "Sign in with Facebook"
+       click_link "New Bettle"
+       fill_in 'search_term', :with => "Barce"
+       find('a#ui-id-4').click
+       page.execute_script("transition_step(2)")
+       page.should have_content('Malaga')
+     end
+    
+    it "shows error if bet is on the same outcome -> tie" do
+      find('select#bettle_maker_outcome_id').select('tie')
+      find('select#bettle_taker_outcome_id').select('tie')
+      page.should have_content("You cannot bet on the same result as your rival")
+    end
+
+    it "shows error if bet is on the same outcome -> home team wins" do
+      find(:id, "bettle_maker_outcome_id").select('Barcelona wins')
+      find(:id , 'bettle_taker_outcome_id').select('Barcelona win')
+      page.should have_content("You cannot bet on the same result as your rival")
+    end
+    it "only numeric values for win/lose amount/day/hour/minute" do
+      find(:id, "bettle_maker_outcome_id").select('Barcelona wins')
+      find(:id , 'bettle_taker_outcome_id').select('Barcelona wins')
+      page.should have_content("You cannot bet on the same result as your rival")
     end
   end
 end
-
-
-
-
 
 
 

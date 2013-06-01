@@ -47,5 +47,8 @@ module SocialBet
 
     # client side validation
     config.autoload_paths << "#{config.root}/lib"
+
+    #new rails 4 feature -> read about it
+    config.secret_key_base = 'blipblapblup'
   end
 end

@@ -21,9 +21,9 @@ class BettlesController < ApplicationController
      if @bettle.save
       $redis.publish('bettle.create', @bettle.to_json(:include => {:fixture => {:include => [:home_team, :abroad_team, :league]}}))
      end
-     #respond_to do |format|
-       #format.js
-     #end
+     respond_to do |format|
+       format.js
+     end
   end
 
   def update
@@ -42,7 +42,7 @@ class BettlesController < ApplicationController
     if current_user 
       @bettles = Bettle.where(:bettle_status_id => 1).where('maker_id != ? AND  expiration_time >= ?', current_user.id, Time.now)
     else
-      @bettles = Bettle.where(:bettle_status_id => 1).where('expiration_time >= ?', Time.now).limit(2)
+      @bettles = Bettle.where(:bettle_status_id => 1).where('expiration_time >= ?', Time.now).limit(5)
     end
     render :json => @bettles.to_json(:include => {:fixture => {:include => [:home_team, :abroad_team, :league]}})
   end
@@ -50,24 +50,29 @@ class BettlesController < ApplicationController
  
   # methods searches for a team -> used on 1. step of bettle creation process
   def team_search
-    @fixtures = Fixture.search(params[:search_term])
+    @fixtures = Fixture.search(params[:term])
+    if @fixtures.size == 0
+      render :json => ["No results found"]
+    else
+      render :json => @fixtures.to_json(:include => [:home_team, :abroad_team, :league])
+    end
   end
 
   # rails cast on live stream Rails 4
-   def events
-     response.headers["Content-Type"] = "text/event-stream"   
-     redis = Redis.new
-     redis.subscribe('bettle.create') do |on|
-       on.message do |event, data|
-         response.stream.write "data: #{data}\n\n"
-       end
-     end
-   rescue IOError
-     logger.info "Stream closed biatch"
-   ensure 
-     redis.quit
-     response.stream.close
-   end
+   #def events
+     #response.headers["Content-Type"] = "text/event-stream"   
+     #redis = Redis.new
+     #redis.subscribe('bettle.create') do |on|
+       #on.message do |event, data|
+         #response.stream.write "data: #{data}\n\n"
+       #end
+     #end
+   #rescue IOError
+     #logger.info "Stream closed biatch"
+   #ensure 
+     #redis.quit
+     #response.stream.close
+   #end
 
 
   protected

@@ -8,7 +8,8 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= jquery_ui_timepicker_addon.js
-
 //= angular_resource
 //= angular
+//= moment.js
+//= bettle_validations.js
 //= require_tree .

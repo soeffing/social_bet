@@ -55,17 +55,3 @@ var cash_or_honor_bet = function(el){
   $('#cash_bet').toggle(); 
 }
 
-
-// checks if rivals dont bet on same outcome
-
-var outcome_validation = function(el) {
-  if ($('#bettle_maker_outcome_id').val() == $('#bettle_taker_outcome_id').val()) {
-    // alert('You cannot bet on the same result as your rival. Duh!')
-    $('#bettle_outcome_selection').prepend('<p id="outcome_warning"> You cannot bet on the same result as your rival. Duh! </p>');
-    $("#new_bettle input[type='submit']").attr('disabled', 'disabled');
-  } else {
-     $('#outcome_warning').remove();
-     $("#new_bettle input[type='submit']").removeAttr('disabled');
-  }
-
-}

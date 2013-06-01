@@ -11,7 +11,11 @@ class Fixture < ActiveRecord::Base
   	if search_term == ""
       "empty_search_field"
   	else
-      where('(team_1_id IN (?) OR team_2_id IN (?)) AND date >= ?', Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'), Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'), Date.today)
+      # with date
+      # where('(team_1_id IN (?) OR team_2_id IN (?)) AND date >= ?', Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'), Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'), Date.today)
+      # without date
+      where('(team_1_id IN (?) OR team_2_id IN (?))', Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'), Team.where('team_name LIKE ?', '%'+search_term+'%').select('id'))
+
     end
   end
 

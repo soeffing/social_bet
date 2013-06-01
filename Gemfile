@@ -38,6 +38,7 @@ group :development, :test do
   gem 'faker'
   gem 'capybara'
   gem 'launchy'
+  gem 'selenium-webdriver'
 end
 group :test do
 end

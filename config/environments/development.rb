@@ -5,11 +5,11 @@ SocialBet::Application.configure do
   # every request.  This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   # IMPORTANT: usually false but set to true for server send event
-  config.cache_classes = true
+  config.cache_classes = false
 
   # rails 4 stuff
   # IMPORTANT: usually false but set to true for server send event
-  config.eager_load = true
+  config.eager_load = false
   # Log error messages when you accidentally call methods on nil.
   # deprecated rails 4
   #config.whiny_nils = true

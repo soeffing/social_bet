@@ -1,7 +1,7 @@
 module ApplicationHelper
 
  def get_leagues
-     leagues = League.find(:all)
+     leagues = League.all
   
      c_select_hash = Hash.new
    
@@ -13,7 +13,7 @@ module ApplicationHelper
  end
 
  def get_outcomes
-     outcomes = Outcome.find(:all)
+     outcomes = Outcome.all
   
      c_select_hash = Hash.new
      
@@ -24,7 +24,7 @@ module ApplicationHelper
  end
 
   def get_outcomes_reverse
-     outcomes = Outcome.find(:all)
+     outcomes = Outcome.all
   
      c_select_hash = Hash.new
      

@@ -1,3 +1,5 @@
+
+// set option for jquery ui dialog
 var opt = {
         autoOpen: false,
         modal: true,
@@ -6,40 +8,70 @@ var opt = {
         close: function( event, ui ) { $("#new_bettle_dialog" ).children().remove() }
 };
 
+// append new bettle form to hook
 $("#new_bettle_dialog").append("<%= escape_javascript(render :partial => 'new') %>");
 
+// open jui dialog window
 $("#new_bettle_dialog" ).dialog(opt).dialog("open");
       
- 
+// hide step 2 of bettle creation
+$('#new_bettle_step_2').css('display', 'none');
 
- // $("#banner_preview").data("overlay").load();
-
-
-
-// $(document).ready(function() {
-   $('#new_bettle_step_2').css('display', 'none');
-// }  
 
 
 
 $(document).ready(function() {
 
   // activate jquery ui datepicker
-   $('#bettle_expiration_time').datetimepicker({"format": "dd-mm-yyyy", "weekStart": 1, "autoclose": true});
+  $('#bettle_expiration_time').datetimepicker({"format": "dd-mm-yyyy", "weekStart": 1, "autoclose": true});
 
-  $('input#search_term').keyup(function() {
-    delay(function(){
-      $('#team_search').submit();
-    }, 250 );
-  });  
+  // jquery auto complete
+  $('input#search_term').autocomplete({
+    source: "/team/search",
+    // called when item selected in dropdown
+    select: function( event, ui ) {
+      $('#home-team').text(ui.item.home_team.team_name); 
+      $('#abroad-team').text(ui.item.abroad_team.team_name);
+      $('#date').text(moment(ui.item.date).format('MMMM Do YYYY')); 
+      $('#league').text(ui.item.league.league_name);
+      $('input#bettle_fixture_id').val(ui.item.id);
+      // show the continue button and fixture div 
+      $('#selected_fixture_step_1').css('display', 'block');
+      $('#continue_button_step_1').css('display', 'block');
+      return false;
+      }
+  })
+  // customized output
+  .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+      console.log(item);
+      if (item.label !== "No results found") {
+      return $( "<li>" )
+        .append( "<a fixture_id=" + item.id +">" + item.home_team.team_name + " vs. " + item.abroad_team.team_name + " " + moment(item.date).format('MMMM Do YYYY')  + " " + item.league.league_name + "</a>" )
+        .appendTo( ul );
+      } else {
+       return $( "<li>" )
+        .append( item.label )
+        .appendTo( ul );  
+      }
+    };
 });
 
 
 
-var delay = (function(){
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
+// not needes anymore
+// trigger the team search after a letter was typed
+  // $('input#search_term').keyup(function() {
+    // delay(function(){
+      // $('#team_search').submit();
+    // }, 250 );
+  // });  
+
+
+// delay team look up -> otherwise too many hits on server
+// var delay = (function(){
+  // var timer = 0;
+  // return function(callback, ms){
+    // clearTimeout (timer);
+    // timer = setTimeout(callback, ms);
+  // };
+// })();

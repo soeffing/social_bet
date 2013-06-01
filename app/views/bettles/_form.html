@@ -16,15 +16,13 @@
 <div id="new_bettle_step_1">
   
   <p>1. Type in your Team</p>
-    <%= form_tag( { :controller => :bettles, :action => :team_search},  :remote => true, :format => :js, :id => "team_search") do %>
+    <%= form_tag( { :controller => :bettles, :action => :team_search},  :remote => true, :format => :js, :method => :get, :id => "team_search") do %>
     
-     <p><%= text_field_tag :search_term,  nil, :placeholder => 'Search for team' %> <%= submit_tag "Go", :class => "all_btn_2" %></p>
+     <p><%= text_field_tag :search_term,  nil, :placeholder => 'Search for team' %> </p>
   
     <% end %>
   
-    <div id="search_results"></div>
-  
-    <div id="selected_fixture_step_1">
+    <div id="selected_fixture_step_1" style="display:none">
       <div id="home-team"> </div>
       <div>vs.</div>
       <div id="abroad-team"></div>
@@ -32,7 +30,7 @@
       <div id="league"></div>
   </div>
 
-  <div onclick="transition_step(2)">Continue Button</div>
+  <div id="continue_button_step_1" onclick="transition_step(2)" style="display:none">Continue Button</div>
 
 </div>
 
@@ -47,21 +45,28 @@
      </div>
      <p> <%= f.select(:free_bet, {"I play with cash" => 0, "I play for honour" => 1}, {}, :onchange => "cash_or_honor_bet(this)" ) %></p>
      <div id="cash_bet">
-       <p>My potential win: <%= f.text_field(:win_maker, :placeholder => "Enter amount here €") %> </p>
-       <p>My potential loss: <%= f.text_field(:win_taker, :placeholder => "Enter amount here €") %>  </p>
+       <p>My potential win: <%= f.text_field(:win_maker, :placeholder => "Enter amount here €", :onkeypress => "return isNumberKey(event, '#maker_win_error')") %> </p>
+       <div class="error_message" id="maker_win_error"></div>
+       <p>My potential loss: <%= f.text_field(:win_taker, :placeholder => "Enter amount here €", :onkeypress => "return isNumberKey(event, '#taker_win_error')") %>  </p>
+       <div class="error_message" id="taker_win_error"></div>
      </div>
      <p>Expiration time </p>
      <div><input type="radio" name="time_select" value="0" checked="checked" onclick="date_selection(0)"> Time span <input type="radio" name="time_select" value="1" onclick="date_selection(1)">Exact date & time</div>
      <div id="time_span">
        <p>Bet expires in</p>
-       <%= text_field_tag(:days, nil, :placeholder => "# days") %> <%= text_field_tag(:hours, nil, :placeholder => "# hours") %> <%= text_field_tag(:minutes, nil, :placeholder => "# minutes") %>
+       <%= text_field_tag(:days, nil, :placeholder => "# days",:onkeypress => "return isNumberKey(event, '#day_error')") %>
+       <div class="error_message" id="day_error"></div>
+       <%= text_field_tag(:hours, nil, :placeholder => "# hours") %>
+       <div class="error_message" id="hour_error"></div>
+       <%= text_field_tag(:minutes, nil, :placeholder => "# minutes") %>
+       <div class="error_message" id="minute_error"></div>
      </div>
      <div id="exact_date">
        <p>Bet expires on</p>
        <%= f.text_field(:expiration_time) %>
        <p>Bettle.me orientates itself to the Greenwich Mean Time (GMT). Current GMT: <span id="current_gmt_time"></span></p>
      </div>
-     <p><%= f.submit %> </p>
+      <div onclick="bettle_validation()">Create Bettle Button</div>
  <% end %>
 
  <div onclick="transition_step(1)">Go Back Button</div>

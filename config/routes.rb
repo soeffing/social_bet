@@ -10,7 +10,7 @@ SocialBet::Application.routes.draw do
 
   root to: 'users#new'
   
-  post 'team/search', to: 'bettles#team_search'
+  get 'team/search', to: 'bettles#team_search'
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: 'users#new'
   get 'signout', to: 'sessions#destroy', as: 'signout'

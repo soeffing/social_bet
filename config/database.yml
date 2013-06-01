@@ -24,8 +24,9 @@ test:
   reconnect: false
   database: bettle_test
   pool: 5
-  username: root
-  socket: /tmp/mysql.sock
+  username: soeffing
+  password: helmut63
+  socket: /var/run/mysqld/mysqld.sock
 
 # production:
   # adapter: sqlite3
