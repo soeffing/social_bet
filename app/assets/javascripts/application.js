@@ -4,12 +4,20 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
+// require jquery
+// require jquery_ujs
+// require jquery.ui.all
+// jquery_ui_timepicker_addon.js
+// angular_resource
+// angular
+// moment.js
+///bettle_validations.js
+
 //= require jquery
-//= require jquery_ujs
-//= require jquery.ui.all
-//= jquery_ui_timepicker_addon.js
-//= angular_resource
-//= angular
-//= moment.js
-//= bettle_validations.js
-//= require_tree .
+//= require angular
+//= require app/main
+//= require angular_resource
+//= require_tree ./config
+//= require_tree ./app/controllers
+//= require_tree ./app/services
+//= require_self

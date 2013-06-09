@@ -1,19 +1,24 @@
 SocialBet::Application.routes.draw do
 
-  resources :users
+  root to: 'home#index'
 
-  resources :bettles do
-    collection { get :events}
+  namespace :api do
+    resources :bettles
   end
-
-  resources :fixtures, :only => [:show]
-
-  root to: 'users#new'
-  
-  get 'team/search', to: 'bettles#team_search'
-  get 'auth/:provider/callback', to: 'sessions#create'
-  get 'auth/failure', to: 'users#new'
-  get 'signout', to: 'sessions#destroy', as: 'signout'
+  # resources :users
+# 
+  # resources :bettles do
+    # collection { get :events}
+  # end
+# 
+  # resources :fixtures, :only => [:show]
+# 
+  # root to: 'users#new'
+#   
+  # get 'team/search', to: 'bettles#team_search'
+  # get 'auth/:provider/callback', to: 'sessions#create'
+  # get 'auth/failure', to: 'users#new'
+  # get 'signout', to: 'sessions#destroy', as: 'signout'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
