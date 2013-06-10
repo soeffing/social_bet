@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :balance, :email, :first_name, :last_name, :username, :uid, :provider, :name, :oauth_token, :oauth_token_expires_at
+  #attr_accessible :balance, :email, :first_name, :last_name, :username, :uid, :provider, :name, :oauth_token, :oauth_token_expires_at
   has_many :made_bettles, :class_name => "Bettle", :foreign_key => 'maker_id' 
   has_many :taken_bettles, :class_name => "Bettle", :foreign_key => 'taker_id'
 
